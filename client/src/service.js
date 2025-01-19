@@ -15,19 +15,14 @@ axios.interceptors.response.use(
     console.error('API Error:', error.response || error.message);
     if (error.response && error.response.status === 401) {
       // אם השגיאה היא 401, הפנה לדף התחברות
-      window.location.href = '/login'; // לדף התחברות
     }
     return Promise.reject(error); // מחזירים את השגיאה הלאה
   }
 );
 
-// אם יש JWT ב-localStorage, הוסף אותו ל-header של כל בקשה
-const token = localStorage.getItem('token');
-if (token) {
-  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-}
 
-const apiUrl = "http://localhost:5206/";
+
+const apiUrl = "process.env.REACT_APP_API_URL";
 
 export default {
   getTasks: async () => {
@@ -56,7 +51,7 @@ export default {
 
   setCompleted: async (id, isComplete) => {
     try {
-      await axios.put(`${apiUrl}${id}`, { isComplete: isComplete });
+      await axios.put(`${apiUrl}/${id}`, { isComplete: isComplete });
     } catch (error) {
       console.error("Error updating task:", error);
       throw error; // טיפול בשגיאה
@@ -65,7 +60,7 @@ export default {
 
   deleteTask: async (id) => {
     try {
-      await axios.delete(`${apiUrl}${id}`);
+      await axios.delete(`${apiUrl}/${id}`);
     } catch (error) {
       console.error("Error deleting task:", error);
       throw error; // טיפול בשגיאה
