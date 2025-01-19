@@ -25,7 +25,7 @@ public partial class ToDoDbContext : DbContext
             try
             {
                 // var connectionString = "Server=bujkixbbtsdssxnmdyuu-mysql.services.clever-cloud.com;User=uftyv7t4ctoqb2rx;Password=tC6pwbqLIWAI1c7MSb88;Database=bujkixbbtsdssxnmdyuu;";
-                var connectionString = Environment.GetEnvironmentVariable("ToDoDB");
+                var connectionString = Environment.GetEnvironmentVariable("TODODB");
 
                 optionsBuilder.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.40-mysql"));
                 Console.WriteLine("Database connection success");
