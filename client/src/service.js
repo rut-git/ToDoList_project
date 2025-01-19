@@ -22,7 +22,7 @@ axios.interceptors.response.use(
 
 
 
-const apiUrl = "process.env.REACT_APP_API_URL";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export default {
   getTasks: async () => {
