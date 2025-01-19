@@ -703,11 +703,11 @@ app.UseCors();
 app.UseAuthentication(); // Enable JWT Authentication
 app.UseAuthorization();  // Enable Authorization Middleware
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 // Route to Get All Tasks
 app.MapGet("/", [Microsoft.AspNetCore.Authorization.Authorize] async (ToDoDbContext dbContext) =>
