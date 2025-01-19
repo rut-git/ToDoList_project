@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 // הגדרת ה-baseURL של ה-API
-axios.defaults.baseURL = 'process.env.REACT_APP_API_URL';  // עדכן לכתובת ה-API שלך
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;  // עדכן לכתובת ה-API שלך
 
 // הגדרת headers ברירת מחדל
 axios.defaults.headers['Content-Type'] = 'application/json';
