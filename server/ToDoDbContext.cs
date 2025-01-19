@@ -1,24 +1,21 @@
-
 using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using TodoApi;
 
-namespace TodoApi;
-
-public partial class ToDoDbContext : DbContext
+namespace TodoApi
 {
-    // DbSet של משתמשים
-    public virtual DbSet<User> Users { get; set; }
-
-    public virtual DbSet<Item> Items { get; set; }
-
-    public ToDoDbContext(DbContextOptions<ToDoDbContext> options)
-        : base(options)
+    public partial class ToDoDbContext : DbContext
     {
-    }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
 
-  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ToDoDbContext(DbContextOptions<ToDoDbContext> options)
+            : base(options)
+        {
+        }
+       
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             Console.WriteLine("OnConfiguring is being called");
 
@@ -36,36 +33,33 @@ public partial class ToDoDbContext : DbContext
                 throw; // Optionally rethrow for further handling
             }
         }
-    // אפיון טבלאות ותכונות
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder
-            .UseCollation("utf8mb4_0900_ai_ci")
-            .HasCharSet("utf8mb4");
 
-        // הגדרת טבלת Items
-        modelBuilder.Entity<Item>(entity =>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            modelBuilder
+                .UseCollation("utf8mb4_0900_ai_ci")
+                .HasCharSet("utf8mb4");
 
-            entity.ToTable("items");
+            modelBuilder.Entity<Item>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PRIMARY");
+                entity.ToTable("Items");
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
 
-            entity.Property(e => e.Name).HasMaxLength(100);
-        });
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PRIMARY");
+                entity.ToTable("Users");
+                entity.Property(e => e.Username).HasMaxLength(50).IsRequired();
+                entity.Property(e => e.Password).HasMaxLength(255).IsRequired();
+            });
 
-        // הגדרת טבלת Users (למשתמשים)
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            OnModelCreatingPartial(modelBuilder);
+        }
 
-            entity.ToTable("users");
-
-            entity.Property(e => e.Username).HasMaxLength(50).IsRequired();
-            entity.Property(e => e.Password).HasMaxLength(255).IsRequired();
-        });
-
-        OnModelCreatingPartial(modelBuilder);
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+   
 }
