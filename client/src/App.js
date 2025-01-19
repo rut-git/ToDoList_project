@@ -10,15 +10,11 @@ function App() {
     <Router>
       <div>
         <nav>
-          <Link to="/">Home</Link> | 
-          <Link to="/login">Login</Link> | 
-          <Link to="/signup">Sign Up</Link>
+          <Link to="/">Home</Link>
         </nav>
 
         <Routes>
           <Route path="/" element={<HomePage />} /> {/* דף הבית */}
-          <Route path="/login" element={<Login />} /> {/* דף התחברות */}
-          <Route path="/signup" element={<Register />} /> {/* דף הרשמה */}
         </Routes>
       </div>
     </Router>
